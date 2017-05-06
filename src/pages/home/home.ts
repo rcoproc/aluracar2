@@ -21,7 +21,6 @@ export class HomePage implements OnInit {
       content: 'Buscando novos carros. Aguarde ...'
     });
 
-
     loader.present();
 
     this._http
