@@ -1,23 +1,24 @@
 import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { Agendamento } from '../../domain/agendamento/agendamento';
-import { Storage } from '@ionic/storage';
+import { AgendamentoDao } from '../../domain/agendamento/agendamento-dao';
 
 @Injectable()
 export class AgendamentoService {
-    constructor(private _http: Http, private _storage: Storage) {}
+    constructor(private _http: Http, private _dao: AgendamentoDao) {}
 
     agenda(agendamento: Agendamento) {
       let api = `https://aluracar.herokuapp.com/salvarpedido?carro=${agendamento.carro.nome}&preco=${agendamento.valor}&nome=${agendamento.nome}&endereco=${agendamento.endereco}&email=${agendamento.email}&data=${agendamento.data}`;
-      return this._http
-        .get(api)
-        .toPromise()
-        .then(() => agendamento.confirmado = true , err => console.log(err))
-        .then(() => {
-            // grava no banco
-            let key = agendamento.email+agendamento.data.substr(0,10)
-            return this._storage.set(key, agendamento);
+
+      return this._dao.ehAgendamentDuplicado(agendamento)
+            .then(existe => {
+                if(existe) throw new Error('Este agendamento já foi realizado!');
+                // else
+                return this._http
+                    .get(api).toPromise()
+                    .then(() => agendamento.confirmado = true , err => console.log(err))
+                    .then(() => this._dao.salva(agendamento))
+                    .then(() => agendamento.confirmado);
         })
-        .then(() => agendamento.confirmado);
     }
 }
