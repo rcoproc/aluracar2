@@ -4,9 +4,19 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { EscolhaPage } from '../pages/escolha/escolha';
 import { CadastroPage } from '../pages/cadastro/cadastro';
+import { AgendamentoService } from '../domain/agendamento/agendamento-service'
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
+
+import { Storage } from '@ionic/storage';
+
+function provideStorage() {
+  return new Storage(['indexeddb'], { 
+    name: 'aluracar',             // Nome do Banco
+    storeName: 'agendamento'      // Nome da Tabela
+  });
+};
 
 @NgModule({
   declarations: [
@@ -25,6 +35,10 @@ import 'rxjs/add/operator/toPromise';
     EscolhaPage, 
     CadastroPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
+  providers: [
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    AgendamentoService, 
+    {provide: Storage, useFactory: provideStorage}
+    ]
 })
 export class AppModule {}
