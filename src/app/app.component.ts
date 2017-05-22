@@ -4,16 +4,19 @@ import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { HomePage } from '../pages/home/home';
 import { AgendamentosPage } from '../pages/agendamentos/agendamentos';
+import { LoginPage } from '../pages/login/login';
+import { PerfilPage } from '../pages/perfil/perfil';
 
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage = HomePage;
+  rootPage = LoginPage;
 
   public paginas = [
-    { titulo: 'Agendamento', componente: AgendamentosPage }
+    { titulo: 'Agendamento', componente: AgendamentosPage }, 
+    { titulo: 'Perfil', componente: PerfilPage }
   ];
 
   @ViewChild(Nav) public nav: Nav;
