@@ -17,7 +17,7 @@ import { UsuarioService } from '../domain/usuario/usuario-service';
 import { PerfilPage } from '../pages/perfil/perfil';
 
 function provideStorage() {
-  return new Storage(['indexeddb'], { 
+  return new Storage(['indexeddb', 'sqlite'], { 
     name: 'aluracar',             // Nome do Banco
     storeName: 'agendamento'      // Nome da Tabela
   });
