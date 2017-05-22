@@ -16,11 +16,30 @@ import { LoginPage } from '../pages/login/login';
 import { UsuarioService } from '../domain/usuario/usuario-service';
 import { PerfilPage } from '../pages/perfil/perfil';
 
+// NOVIDADE! OS DOIS IMPORTS A SEGUIR!
+// NÃO ESQUEÇA DE ADICIONÁ-LOS NO ARRAY DE  imports!
+
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpModule } from '@angular/http';
+
+// importou agora cada componente nativo
+// veja que a importação mudou!
+// Não esqueça de adicionar cada componente
+// na lista de providers
+
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { StatusBar } from '@ionic-native/status-bar';
+import { Vibration } from '@ionic-native/vibration'; 
+import { DatePicker } from '@ionic-native/date-picker'; 
+import { Camera } from '@ionic-native/camera';
+
 function provideStorage() {
-  return new Storage(['indexeddb', 'sqlite'], { 
-    name: 'aluracar',             // Nome do Banco
-    storeName: 'agendamento'      // Nome da Tabela
+
+  return new Storage({ 
+    name: 'aluracar',             
+    storeName: 'agendamento'      
   });
+
 };
 
 @NgModule({
@@ -34,7 +53,9 @@ function provideStorage() {
     PerfilPage
   ],
   imports: [
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    BrowserModule,
+    HttpModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -51,7 +72,12 @@ function provideStorage() {
     AgendamentoService, 
     {provide: Storage, useFactory: provideStorage}, 
     AgendamentoDao, 
-    UsuarioService
+    UsuarioService,
+    SplashScreen,
+    StatusBar,
+    Vibration,
+    DatePicker,
+    Camera    
     ]
 })
 export class AppModule {}

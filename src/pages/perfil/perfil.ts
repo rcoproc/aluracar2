@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { UsuarioService } from '../../domain/usuario/usuario-service';
-import { Camera } from 'ionic-native';
+// import { Camera } from 'ionic-native';
+import { Camera } from '@ionic-native/camera';
 
 @Component({
   selector: 'page-perfil',
@@ -14,7 +15,8 @@ export class PerfilPage implements OnInit {
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
-    private _service: UsuarioService) {}
+    private _service: UsuarioService, 
+    public camera: Camera) {}
 
   get usuarioLogado() {
     return this._service.obtemUsuarioLogado();
@@ -25,8 +27,8 @@ export class PerfilPage implements OnInit {
   }
 
   tiraFoto() {
-    Camera.getPicture({
-      destinationType: Camera.DestinationType.FILE_URI,
+    this.camera.getPicture({
+      destinationType: this.camera.DestinationType.FILE_URI,
       saveToPhotoAlbum: true, 
       correctOrientation: true
     }).then(url => {
