@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Agendamento } from '../../domain/agendamento/agendamento';
 import { Storage } from '@ionic/storage';
+import { Carro } from '../../domain/carro/carro';
 
 @Injectable()
 export class AgendamentoDao {
@@ -26,5 +27,25 @@ export class AgendamentoDao {
                 return dado ? true : false
             });
 
+    }
+
+    listaTodos() {
+
+        let agendamentos = [];
+
+        return this._storage.forEach(dado =>{
+
+            let carro = new Carro(dado.carro.nome, dado.carro.preco);
+
+            let agendamento = new Agendamento(
+                carro, 
+                dado.valor,
+                dado.nome,
+                dado.endereco,
+                dado.email,
+                dado.data,
+                dado.confirmado);
+            agendamentos.push(agendamento);
+        }).then(() => agendamentos);
     }
 }
